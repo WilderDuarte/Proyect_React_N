@@ -19,7 +19,8 @@ body {
 }
 
 .form-card h3 {
-    color: #D4AF37; /* dorado sobrio */
+    color: #D4AF37;
+    /* dorado sobrio */
     font-weight: bold;
 }
 
@@ -67,4 +68,8 @@ a:hover {
     width: 220px;
     height: auto;
     filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
