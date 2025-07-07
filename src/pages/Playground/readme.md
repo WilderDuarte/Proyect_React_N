@@ -15,7 +15,6 @@
 - Ejemplo: contador, texto del input.
 - **Ejercicio:** Hacer un contador que suba y baje.
 
-
 ### 2. useEffect
 - Ejecuta código cuando el componente se monta o cambian datos.
 - Ejemplo: mostrar mensaje, llamar una API.
@@ -30,8 +29,6 @@
 ---
 
 ## HOOKS DE RENDERIZADO Y LÓGICA
-
----
 
 ### 4. useMemo
 - Memoriza cálculos para que no se repitan si no cambian sus datos.
@@ -53,13 +50,10 @@
 
 ## HOOKS DE MANEJO DE FORMULARIOS
 
----
-
 ### 7. useId
 - Genera IDs únicos para elementos.
 - Ejemplo: etiquetas e inputs vinculados.
 - **Ejercicio:** Crear IDs únicos para inputs.
-
 
 ### 8. useDeferredValue
 - Para retrasar actualizaciones costosas en pantalla.
@@ -69,8 +63,6 @@
 ---
 
 ## HOOKS DE LISTENERS Y EFECTOS EXTERNOS
-
----
 
 ### 9. useLayoutEffect
 - Como useEffect, pero antes de pintar la pantalla.
@@ -86,8 +78,6 @@
 ---
 
 ## HOOKS DE RENDERIZADO Y RENDIMIENTO
-
----
 
 ### 11. useTransition
 - Para tareas que pueden esperar sin bloquear la interfaz.
