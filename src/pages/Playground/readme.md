@@ -15,14 +15,12 @@
 - Ejemplo: contador, texto del input.
 - **Ejercicio:** Hacer un contador que suba y baje.
 
----
 
 ### 2. useEffect
 - Ejecuta código cuando el componente se monta o cambian datos.
 - Ejemplo: mostrar mensaje, llamar una API.
 - **Ejercicio:** Mostrar mensaje en pantalla o en consola cuando cambie algo.
 
----
 
 ### 3. useRef
 - Permite acceder al DOM o guardar valores sin re-renderizar.
@@ -33,19 +31,18 @@
 
 ## HOOKS DE RENDERIZADO Y LÓGICA
 
+---
+
 ### 4. useMemo
 - Memoriza cálculos para que no se repitan si no cambian sus datos.
 - Ejemplo: cálculos costosos.
 - **Ejercicio:** Guardar el doble de un número sin recalcular siempre.
 
----
 
 ### 5. useCallback
 - Memoriza funciones para no crearlas en cada render.
 - Ejemplo: pasar funciones a componentes hijos.
 - **Ejercicio:** Botón que imprima un mensaje en consola.
-
----
 
 ### 6. useContext
 - Permite compartir datos entre componentes sin pasarlos por props.
@@ -56,12 +53,13 @@
 
 ## HOOKS DE MANEJO DE FORMULARIOS
 
+---
+
 ### 7. useId
 - Genera IDs únicos para elementos.
 - Ejemplo: etiquetas e inputs vinculados.
 - **Ejercicio:** Crear IDs únicos para inputs.
 
----
 
 ### 8. useDeferredValue
 - Para retrasar actualizaciones costosas en pantalla.
@@ -72,12 +70,13 @@
 
 ## HOOKS DE LISTENERS Y EFECTOS EXTERNOS
 
+---
+
 ### 9. useLayoutEffect
 - Como useEffect, pero antes de pintar la pantalla.
 - Ejemplo: medir tamaño de elementos.
 - **Ejercicio:** Mostrar ancho de un div.
 
----
 
 ### 10. useImperativeHandle
 - Permite exponer funciones específicas de un componente hijo.
@@ -88,12 +87,13 @@
 
 ## HOOKS DE RENDERIZADO Y RENDIMIENTO
 
+---
+
 ### 11. useTransition
 - Para tareas que pueden esperar sin bloquear la interfaz.
 - Ejemplo: cambiar de pantalla mientras carga.
 - **Ejercicio:** Simular carga mientras cambia texto.
 
----
 
 ### 12. useReducer
 - Maneja estados complejos como un switch-case.
@@ -109,14 +109,12 @@
 - Ejemplo: integración con Redux, Zustand, etc.
 - **Ejercicio:** Simular un contador externo que notifica cambios.
 
----
 
 ### 14. useDebugValue
 - Muestra info en las herramientas de desarrollo.
 - Ejemplo: para debugging.
 - **Ejercicio:** Mostrar mensaje en DevTools.
 
----
 
 ### 15. useErrorBoundary
 - Para capturar errores en componentes funcionales.
