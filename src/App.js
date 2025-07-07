@@ -3,6 +3,10 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
+// Import para los Hooks de clases
+import UseStatePlay from './pages/Playground/UseStatePlay'
+import UseEffectPlay from './pages/Playground/UseEffectPlay'
+import UseRefPlay from './pages/Playground/UseRefPlay'
 
 function App() {
   return (
@@ -12,6 +16,10 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot" element={<ForgotPasswordPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        {/* Espacio para rutas de Hooks para clases */}
+        <Route path="/usestate" element={<UseStatePlay />} />
+        <Route path="/useeffect" element={<UseEffectPlay  />} />
+        <Route path="/useref" element={<UseRefPlay  />} />
       </Routes>
     </BrowserRouter>
   );
