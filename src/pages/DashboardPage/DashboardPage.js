@@ -1,11 +1,24 @@
 import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaSignOutAlt } from 'react-icons/fa';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase';
 import logo from '../../assets/brilla.png';
 import './DashboardPage.css';
 
 function DashboardPage() {
   const navigate = useNavigate();
+
+  // Función para cerrar sesión en Firebase
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/');
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      // Aquí podrías mostrar un SweetAlert si lo deseas
+    }
+  };
 
   return (
     <>
@@ -36,7 +49,7 @@ function DashboardPage() {
               <Nav.Link onClick={() => navigate('/opcion1')}>Opción 1</Nav.Link>
               <Nav.Link onClick={() => navigate('/opcion2')}>Opción 2</Nav.Link>
               <Nav.Link
-                onClick={() => navigate('/')}
+                onClick={handleLogout}
                 className="logout-link"
               >
                 <FaSignOutAlt /> Cerrar Sesión
@@ -54,6 +67,18 @@ function DashboardPage() {
           <p className="welcome-text">
             Manage your clients, services, and more efficiently!
           </p>
+
+          {/* 
+            Si quieres mostrar datos del usuario de Google:
+            
+            import { useAuthState } from 'react-firebase-hooks/auth';
+            const [user] = useAuthState(auth);
+
+            Luego puedes mostrar:
+            {user?.displayName}
+            {user?.email}
+            {user?.photoURL}
+          */}
         </div>
       </main>
 

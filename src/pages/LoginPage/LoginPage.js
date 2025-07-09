@@ -1,5 +1,7 @@
-import { useState } from 'react'; // permite crear variables que cambian en el tiempo (estado)., guarda valores cambiantes por ejm cotnadores, formularios, etc
+import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { auth, googleProvider } from '../../firebase';
+import { signInWithPopup } from 'firebase/auth';
 import './LoginPage.css';
 import logo from '../../assets/brilla.png';
 
@@ -7,7 +9,7 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Simulando la base de datos de usuarios
+  // Simulación de base de datos local
   const usuarios = [
     { email: "juan@correo.com", password: "Jua123" },
     { email: "maria@correo.com", password: "Mar123" },
@@ -21,6 +23,7 @@ function LoginPage() {
     { email: "valentina@correo.com", password: "Val123" }
   ];
 
+  // ✅ Login local con usuario/contraseña
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -35,7 +38,9 @@ function LoginPage() {
       return;
     }
 
-    const usuarioValido = usuarios.find(u => u.email === email && u.password === password);
+    const usuarioValido = usuarios.find(
+      (u) => u.email === email && u.password === password
+    );
 
     if (usuarioValido) {
       Swal.fire({
@@ -52,14 +57,42 @@ function LoginPage() {
     }
   };
 
+  // ✅ Login con Google
+  const handleGoogleLogin = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const user = result.user;
+        Swal.fire({
+          title: "¡Bienvenido!",
+          text: `Sesión iniciada con Google: ${user.email}`,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.href = "/dashboard";
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        Swal.fire("Error", "No se pudo iniciar sesión con Google.", "error");
+      });
+  };
+
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-gradient">
       <div className="form-card">
-        <img src={logo} alt="Logo de Brilla" className="logo mb-3 d-block mx-auto" style={{ width: '250px' }} />
+        <img
+          src={logo}
+          alt="Logo de Brilla"
+          className="logo mb-3 d-block mx-auto"
+          style={{ width: '250px' }}
+        />
         <h3 className="mb-4 text-center">Iniciar Sesión</h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Correo electrónico</label>
+            <label htmlFor="email" className="form-label">
+              Correo electrónico
+            </label>
             <input
               type="email"
               className="form-control"
@@ -71,7 +104,9 @@ function LoginPage() {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">Contraseña</label>
+            <label htmlFor="password" className="form-label">
+              Contraseña
+            </label>
             <input
               type="password"
               className="form-control"
@@ -83,11 +118,22 @@ function LoginPage() {
             />
           </div>
           <div className="d-grid">
-            <button type="submit" className="btn btn-primary">Entrar</button>
+            <button type="submit" className="btn btn-primary">
+              Entrar
+            </button>
           </div>
         </form>
+
         <div className="text-center mt-3">
-          <a href="/register">¿No tienes cuenta? Regístrate</a><br />
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="btn btn-danger w-100 mb-2"
+          >
+            Iniciar sesión con Google
+          </button>
+          <a href="/register">¿No tienes cuenta? Regístrate</a>
+          <br />
           <a href="/forgot">¿Olvidaste tu contraseña?</a>
         </div>
       </div>

@@ -3,10 +3,14 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
-// Import para los Hooks de clases
-import UseStatePlay from './pages/Playground/UseStatePlay'
-import UseEffectPlay from './pages/Playground/UseEffectPlay'
-import UseRefPlay from './pages/Playground/UseRefPlay'
+
+// Rutas para hooks
+import UseStatePlay from './pages/Playground/UseStatePlay';
+import UseEffectPlay from './pages/Playground/UseEffectPlay';
+import UseRefPlay from './pages/Playground/UseRefPlay';
+
+// Protege rutas con autenticación Firebase
+import ProtectedRoute from './pages/components/ProtectedRoute';
 
 function App() {
   return (
@@ -15,56 +19,24 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot" element={<ForgotPasswordPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        {/* Espacio para rutas de Hooks para clases */}
+
+        {/* Ruta protegida con Firebase Auth */}
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } 
+        />
+
+        {/* Rutas para prácticas de hooks */}
         <Route path="/usestate" element={<UseStatePlay />} />
-        <Route path="/useeffect" element={<UseEffectPlay  />} />
-        <Route path="/useref" element={<UseRefPlay  />} />
+        <Route path="/useeffect" element={<UseEffectPlay />} />
+        <Route path="/useref" element={<UseRefPlay />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-
-
-
-
-
-
-// import LoginPage from './pages/LoginPage/LoginPage';
-
-// function App() {
-//   return (
-//     <LoginPage />
-//   );
-// }
-
-// export default App;
-
-
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
