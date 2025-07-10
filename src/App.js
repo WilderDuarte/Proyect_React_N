@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
+import NotFoundPage from  './pages/components/NotFoundPage';
 
 // Rutas para hooks
 import UseStatePlay from './pages/Playground/UseStatePlay';
@@ -21,14 +22,17 @@ function App() {
         <Route path="/forgot" element={<ForgotPasswordPage />} />
 
         {/* Ruta protegida con Firebase Auth */}
-        <Route 
-          path="/dashboard" 
+        <Route
+          path="/dashboard"
           element={
             <ProtectedRoute>
               <DashboardPage />
             </ProtectedRoute>
-          } 
+          }
         />
+
+        {/* Ruta genérica para páginas no encontradas */}
+        <Route path="*" element={<NotFoundPage />} />
 
         {/* Rutas para prácticas de hooks */}
         <Route path="/usestate" element={<UseStatePlay />} />

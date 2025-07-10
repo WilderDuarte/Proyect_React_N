@@ -9,7 +9,6 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Simulación de base de datos local
   const usuarios = [
     { email: "juan@correo.com", password: "Jua123" },
     { email: "maria@correo.com", password: "Mar123" },
@@ -23,7 +22,6 @@ function LoginPage() {
     { email: "valentina@correo.com", password: "Val123" }
   ];
 
-  // ✅ Login local con usuario/contraseña
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -39,7 +37,7 @@ function LoginPage() {
     }
 
     const usuarioValido = usuarios.find(
-      (u) => u.email === email && u.password === password
+      u => u.email === email && u.password === password
     );
 
     if (usuarioValido) {
@@ -57,7 +55,6 @@ function LoginPage() {
     }
   };
 
-  // ✅ Login con Google
   const handleGoogleLogin = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
@@ -90,9 +87,7 @@ function LoginPage() {
         <h3 className="mb-4 text-center">Iniciar Sesión</h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Correo electrónico
-            </label>
+            <label htmlFor="email" className="form-label">Correo electrónico</label>
             <input
               type="email"
               className="form-control"
@@ -104,9 +99,7 @@ function LoginPage() {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Contraseña
-            </label>
+            <label htmlFor="password" className="form-label">Contraseña</label>
             <input
               type="password"
               className="form-control"
@@ -118,9 +111,7 @@ function LoginPage() {
             />
           </div>
           <div className="d-grid">
-            <button type="submit" className="btn btn-primary">
-              Entrar
-            </button>
+            <button type="submit" className="btn btn-primary">Entrar</button>
           </div>
         </form>
 
@@ -128,12 +119,16 @@ function LoginPage() {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="btn btn-danger w-100 mb-2"
+            className="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2 mb-2"
           >
+            <img
+              src="https://img.icons8.com/color/48/google-logo.png"
+              alt="Google logo"
+              style={{ width: '20px', height: '20px' }}
+            />
             Iniciar sesión con Google
           </button>
-          <a href="/register">¿No tienes cuenta? Regístrate</a>
-          <br />
+          <a href="/register">¿No tienes cuenta? Regístrate</a><br />
           <a href="/forgot">¿Olvidaste tu contraseña?</a>
         </div>
       </div>

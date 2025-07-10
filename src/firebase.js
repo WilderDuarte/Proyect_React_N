@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyC7QRpPgeLe7fvQDiYymkzXKw73bWLHF_E",
-    authDomain: "spabrillalogin.firebaseapp.com",
-    projectId: "spabrillalogin",
-    storageBucket: "spabrillalogin.firebasestorage.app",
-    messagingSenderId: "1054111031799",
-    appId: "1:1054111031799:web:7d45d0424662a206fa4ef2"
+    apiKey: "AIzaSyCSoB5RsBrzriSfeRFqaVUfhKumJHLIMBA",
+    authDomain: "brillatlm.firebaseapp.com",
+    projectId: "brillatlm",
+    storageBucket: "brillatlm.firebasestorage.app",
+    messagingSenderId: "970081452395",
+    appId: "1:970081452395:web:5b44b77ca66fe4bf7f0c2e"
 };
 
 // Inicializar Firebase

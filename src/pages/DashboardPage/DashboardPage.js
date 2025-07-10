@@ -5,9 +5,12 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 import logo from '../../assets/brilla.png';
 import './DashboardPage.css';
+import { useAuthState } from 'react-firebase-hooks/auth';
+            
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const [user] = useAuthState(auth);
 
   // Función para cerrar sesión en Firebase
   const handleLogout = async () => {
@@ -16,7 +19,7 @@ function DashboardPage() {
       navigate('/');
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
-      // Aquí podrías mostrar un SweetAlert si lo deseas
+      // SweetAlert opcional
     }
   };
 
@@ -67,18 +70,12 @@ function DashboardPage() {
           <p className="welcome-text">
             Manage your clients, services, and more efficiently!
           </p>
-
-          {/* 
-            Si quieres mostrar datos del usuario de Google:
-            
-            import { useAuthState } from 'react-firebase-hooks/auth';
-            const [user] = useAuthState(auth);
-
-            Luego puedes mostrar:
+          
+            {/* Luego puedes mostrar:
             {user?.displayName}
             {user?.email}
-            {user?.photoURL}
-          */}
+            {user?.photoURL} */}
+ 
         </div>
       </main>
 
