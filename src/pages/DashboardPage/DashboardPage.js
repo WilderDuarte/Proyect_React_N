@@ -5,12 +5,12 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 import logo from '../../assets/brilla.png';
 import './DashboardPage.css';
-import { useAuthState } from 'react-firebase-hooks/auth';
+// import { useAuthState } from 'react-firebase-hooks/auth';
             
 
 function DashboardPage() {
   const navigate = useNavigate();
-  const [user] = useAuthState(auth);
+  // const [user] = useAuthState(auth);
 
   // Función para cerrar sesión en Firebase
   const handleLogout = async () => {

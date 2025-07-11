@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 function ProtectedRoute({ children }) {
   const [user, loading] = useAuthState(auth);
   const [fakeLoading, setFakeLoading] = useState(true);
-  const [showRedirect, setShowRedirect] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
