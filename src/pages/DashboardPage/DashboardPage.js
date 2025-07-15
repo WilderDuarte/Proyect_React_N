@@ -1,25 +1,60 @@
+// imports...
 import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import logo from '../../assets/brilla.png';
+import userDefault from '../../assets/user.png'; // ⚠ importa tu imagen por defecto
 import './DashboardPage.css';
-// import { useAuthState } from 'react-firebase-hooks/auth';
-            
+import Swal from 'sweetalert2';
 
 function DashboardPage() {
   const navigate = useNavigate();
-  // const [user] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
-  // Función para cerrar sesión en Firebase
+  // Determinar foto de usuario (con fallback)
+  const userPhoto = user?.photoURL || userDefault;
+
+  // Agregamos el console.log para verificar qué foto se está usando
+  console.log(
+    user?.photoURL
+      ? `Usuario tiene foto: ${user.photoURL}`
+      : `Usuario SIN foto, se usará: ${userDefault}`
+  );
+
   const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate('/');
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-      // SweetAlert opcional
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Vas a cerrar sesión.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'No, quedarme',
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await signOut(auth);
+        sessionStorage.setItem("logout", "true"); // ⚠ aquí guardamos el flag
+        Swal.fire({
+          icon: 'success',
+          title: 'Sesión cerrada',
+          text: '¡Has cerrado sesión exitosamente!',
+          timer: 2000,
+          showConfirmButton: false,
+        }).then(() => {
+          navigate('/');
+        });
+      } catch (error) {
+        console.error("Error al cerrar sesión:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al cerrar sesión.',
+        });
+      }
     }
   };
 
@@ -28,7 +63,7 @@ function DashboardPage() {
       {/* NAVBAR */}
       <Navbar expand="lg" variant="dark" className="dashboard-navbar">
         <Container>
-          <Navbar.Brand href="#">
+          <Navbar.Brand onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
             <img
               src={logo}
               alt="Brilla Logo"
@@ -51,12 +86,16 @@ function DashboardPage() {
               <Nav.Link onClick={() => navigate('/cronograma')}>Cronograma</Nav.Link>
               <Nav.Link onClick={() => navigate('/opcion1')}>Opción 1</Nav.Link>
               <Nav.Link onClick={() => navigate('/opcion2')}>Opción 2</Nav.Link>
-              <Nav.Link
-                onClick={handleLogout}
-                className="logout-link"
-              >
-                <FaSignOutAlt /> Cerrar Sesión
-              </Nav.Link>
+              <Nav.Item className="logout-container" onClick={handleLogout}>
+                <Nav.Link className="logout-link d-flex align-items-center gap-2">
+                  <FaSignOutAlt /> Cerrar Sesión
+                  <img
+                    src={userPhoto}
+                    alt="Foto de usuario"
+                    className="user-photo-nav"
+                  />
+                </Nav.Link>
+              </Nav.Item>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -70,12 +109,19 @@ function DashboardPage() {
           <p className="welcome-text">
             Manage your clients, services, and more efficiently!
           </p>
-          
-            {/* Luego puedes mostrar:
-            {user?.displayName}
-            {user?.email}
-            {user?.photoURL} */}
- 
+
+          <p className="welcome-text">
+            <strong>Nombre:</strong> {user?.displayName || "Sin nombre"}
+          </p>
+          <p className="welcome-text">
+            <strong>Email:</strong> {user?.email || "Sin correo"}
+          </p>
+          <img
+            src={userPhoto}
+            alt="Foto de usuario"
+            className="main-logo"
+            style={{ maxWidth: '100px', borderRadius: '50%' }}
+          />
         </div>
       </main>
 
