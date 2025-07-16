@@ -33,8 +33,8 @@ function ForgotPasswordPage() {
       });
       setEmail('');
     } catch (error) {
-      console.error(error);
-      Swal.fire("Error", "No se pudo enviar el correo de recuperación.", "error");
+      console.error("Error Firebase:", error.code, error.message);
+      Swal.fire("Error", error.message, "error");
     }
   };
 
