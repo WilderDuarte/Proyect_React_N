@@ -1,17 +1,7 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import {
-  auth,
-  googleProvider,
-  db
-} from '../../firebase';
-import {
-  signInWithEmailAndPassword,
-  fetchSignInMethodsForEmail,
-  linkWithCredential,
-  EmailAuthProvider,
-  signInWithPopup
-} from 'firebase/auth';
+import { auth, googleProvider, db } from '../../firebase';
+import { signInWithEmailAndPassword, fetchSignInMethodsForEmail, linkWithCredential, EmailAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import './LoginPage.css';
 import logo from '../../assets/brilla.png';
@@ -20,7 +10,7 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // 🔥 LOGIN CON EMAIL/PASSWORD
+  // LOGIN CON EMAIL/PASSWORD
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -61,7 +51,7 @@ function LoginPage() {
     }
   };
 
-  // 🔥 LOGIN CON GOOGLE
+  // LOGIN CON GOOGLE
   const handleGoogleLogin = async () => {
     try {
       const googleResult = await signInWithPopup(auth, googleProvider);
@@ -71,7 +61,7 @@ function LoginPage() {
       const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
 
       if (signInMethods.includes('password')) {
-        // Si existe por password → hay que vincularlo
+        // Si existe por password hay que vincularlo
         const password = await solicitarPassword();
         if (!password) {
           Swal.fire("Cancelado", "Operación cancelada.", "info");

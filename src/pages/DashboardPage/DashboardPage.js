@@ -6,7 +6,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import logo from '../../assets/brilla.png';
-import userDefault from '../../assets/user.png'; // ⚠ importa tu imagen por defecto
+import userDefault from '../../assets/user.png'; // importa tu imagen por defecto
 import './DashboardPage.css';
 import Swal from 'sweetalert2';
 
@@ -14,7 +14,7 @@ function DashboardPage() {
   const navigate = useNavigate();
   const [user] = useAuthState(auth);
 
-  // Determinar foto de usuario (con fallback)
+  // Determinar foto de usuario
   const userPhoto = user?.photoURL || userDefault;
 
   // Agregamos el console.log para verificar qué foto se está usando
@@ -37,7 +37,7 @@ function DashboardPage() {
     if (result.isConfirmed) {
       try {
         await signOut(auth);
-        sessionStorage.setItem("logout", "true"); // ⚠ aquí guardamos el flag
+        sessionStorage.setItem("logout", "true"); 
         Swal.fire({
           icon: 'success',
           title: 'Sesión cerrada',
