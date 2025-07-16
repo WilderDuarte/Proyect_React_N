@@ -14,6 +14,7 @@ import UseRefPlay from './pages/Playground/UseRefPlay';
 // Protege rutas con autenticación Firebase
 import ProtectedRoute from './pages/Components/ProtectedRoute';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
+import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
 import AuxiliaresPage from './pages/AuxiliaresPage/AuxiliaresPage';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         {/* Rutas protegidas con Firebase Auth */}
         <Route path="/dashboard" element={<ProtectedRoute> <DashboardPage /> </ProtectedRoute> } />

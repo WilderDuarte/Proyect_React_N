@@ -26,9 +26,9 @@ function ForgotPasswordPage() {
       await sendPasswordResetEmail(auth, email);
       Swal.fire({
         title: "¡Revisa tu correo!",
-        text: "Te hemos enviado instrucciones para recuperar tu contraseña.",
+        html: `Te hemos enviado instrucciones para recuperar tu contraseña, tienes 60 minutos. <strong>¡Podría estar en SPAM!</strong>`,
         icon: "success",
-        timer: 3000,
+        timer: 5000,
         showConfirmButton: false
       });
       setEmail('');
