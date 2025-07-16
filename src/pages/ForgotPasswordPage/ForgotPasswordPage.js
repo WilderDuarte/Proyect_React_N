@@ -2,11 +2,13 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 import './ForgotPasswordPage.css';
 import logo from '../../assets/brilla.png';
+import { auth } from '../../firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email) {
@@ -20,16 +22,20 @@ function ForgotPasswordPage() {
       return;
     }
 
-    Swal.fire({
-      title: "¡Revisa tu correo!",
-      text: "Si el correo existe en nuestra base de datos, recibirás instrucciones para recuperar tu contraseña.",
-      icon: "info",
-      timer: 3000,
-      showConfirmButton: false
-    });
-
-    // Aquí podrías llamar a una API real si la tuvieras
-    setEmail('');
+    try {
+      await sendPasswordResetEmail(auth, email);
+      Swal.fire({
+        title: "¡Revisa tu correo!",
+        text: "Te hemos enviado instrucciones para recuperar tu contraseña.",
+        icon: "success",
+        timer: 3000,
+        showConfirmButton: false
+      });
+      setEmail('');
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "No se pudo enviar el correo de recuperación.", "error");
+    }
   };
 
   const handleGoBack = () => {

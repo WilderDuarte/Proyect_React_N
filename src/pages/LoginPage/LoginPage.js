@@ -1,7 +1,18 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import { auth, googleProvider } from '../../firebase';
-import { signInWithPopup } from 'firebase/auth';
+import {
+  auth,
+  googleProvider,
+  db
+} from '../../firebase';
+import {
+  signInWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+  linkWithCredential,
+  EmailAuthProvider,
+  signInWithPopup
+} from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import './LoginPage.css';
 import logo from '../../assets/brilla.png';
 
@@ -9,20 +20,8 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const usuarios = [
-    { email: "juan@correo.com", password: "Jua123" },
-    { email: "maria@correo.com", password: "Mar123" },
-    { email: "carlos@correo.com", password: "Car123" },
-    { email: "laura@correo.com", password: "Lau123" },
-    { email: "andres@correo.com", password: "And123" },
-    { email: "camila@correo.com", password: "Cam123" },
-    { email: "david@correo.com", password: "Dav123" },
-    { email: "paula@correo.com", password: "Pau123" },
-    { email: "jose@correo.com", password: "Jos123" },
-    { email: "valentina@correo.com", password: "Val123" }
-  ];
-
-  const handleSubmit = (e) => {
+  // 🔥 LOGIN CON EMAIL/PASSWORD
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -30,49 +29,91 @@ function LoginPage() {
       return;
     }
 
-    const formatoCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formatoCorreo.test(email)) {
-      Swal.fire("Correo inválido", "Por favor escribe un correo válido.", "error");
-      return;
-    }
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-    const usuarioValido = usuarios.find(
-      u => u.email === email && u.password === password
-    );
+      // Opcional: verificar si existe documento en Firestore
+      const userDocRef = doc(db, 'usuarios', user.uid);
+      const userSnap = await getDoc(userDocRef);
 
-    if (usuarioValido) {
+      if (userSnap.exists()) {
+        const data = userSnap.data();
+        if (data.estado === "Inactivo") {
+          Swal.fire("Acceso denegado", "Tu cuenta está inactiva. Contacta al administrador.", "error");
+          return;
+        }
+      }
+
       Swal.fire({
         title: "¡Bienvenido!",
-        text: "Inicio de sesión exitoso.",
+        text: `Sesión iniciada como ${user.email}`,
         icon: "success",
         timer: 2000,
         showConfirmButton: false
       }).then(() => {
         window.location.href = "/dashboard";
       });
-    } else {
-      Swal.fire("Error", "Correo o contraseña incorrectos.", "error");
+
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "Credenciales incorrectas o usuario no existe.", "error");
     }
   };
 
-  const handleGoogleLogin = () => {
-    signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        const user = result.user;
-        Swal.fire({
-          title: "¡Bienvenido!",
-          text: `Sesión iniciada con Google: ${user.email}`,
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false
-        }).then(() => {
-          window.location.href = "/dashboard";
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        Swal.fire("Error", "No se pudo iniciar sesión con Google.", "error");
+  // 🔥 LOGIN CON GOOGLE
+  const handleGoogleLogin = async () => {
+    try {
+      const googleResult = await signInWithPopup(auth, googleProvider);
+      const user = googleResult.user;
+
+      // Verificar si ya existía ese correo con otro método
+      const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
+
+      if (signInMethods.includes('password')) {
+        // Si existe por password → hay que vincularlo
+        const password = await solicitarPassword();
+        if (!password) {
+          Swal.fire("Cancelado", "Operación cancelada.", "info");
+          return;
+        }
+
+        // Crear credential de email/password
+        const credential = EmailAuthProvider.credential(user.email, password);
+        await linkWithCredential(user, credential);
+      }
+
+      Swal.fire({
+        title: "¡Bienvenido!",
+        text: `Sesión iniciada con Google: ${user.email}`,
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false
+      }).then(() => {
+        window.location.href = "/dashboard";
       });
+
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "No se pudo iniciar sesión con Google.", "error");
+    }
+  };
+
+  const solicitarPassword = async () => {
+    const result = await Swal.fire({
+      title: "Contraseña requerida",
+      input: "password",
+      inputLabel: "Introduce tu contraseña para vincular cuentas",
+      inputPlaceholder: "Tu contraseña",
+      showCancelButton: true,
+      confirmButtonText: "Vincular",
+      cancelButtonText: "Cancelar"
+    });
+
+    if (result.isConfirmed && result.value) {
+      return result.value;
+    }
+    return null;
   };
 
   return (
@@ -85,6 +126,7 @@ function LoginPage() {
           style={{ width: '250px' }}
         />
         <h3 className="mb-4 text-center">Iniciar Sesión</h3>
+
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Correo electrónico</label>

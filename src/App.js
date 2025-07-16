@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// Rutas públicas
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
-import DashboardPage from './pages/DashboardPage/DashboardPage';
-import NotFoundPage from  './pages/components/NotFoundPage';
+import NotFoundPage from  './pages/Components/NotFoundPage';
 
 // Rutas para hooks
 import UseStatePlay from './pages/Playground/UseStatePlay';
@@ -11,7 +12,9 @@ import UseEffectPlay from './pages/Playground/UseEffectPlay';
 import UseRefPlay from './pages/Playground/UseRefPlay';
 
 // Protege rutas con autenticación Firebase
-import ProtectedRoute from './pages/components/ProtectedRoute';
+import ProtectedRoute from './pages/Components/ProtectedRoute';
+import DashboardPage from './pages/DashboardPage/DashboardPage';
+import AuxiliaresPage from './pages/AuxiliaresPage/AuxiliaresPage';
 
 function App() {
   return (
@@ -22,8 +25,9 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot" element={<ForgotPasswordPage />} />
 
-        {/* Ruta protegida con Firebase Auth */}
+        {/* Rutas protegidas con Firebase Auth */}
         <Route path="/dashboard" element={<ProtectedRoute> <DashboardPage /> </ProtectedRoute> } />
+        <Route path="/auxiliares" element={<ProtectedRoute> <AuxiliaresPage /> </ProtectedRoute> } />
 
         {/* Ruta genérica para páginas no encontradas */}
         <Route path="*" element={<NotFoundPage />} />
