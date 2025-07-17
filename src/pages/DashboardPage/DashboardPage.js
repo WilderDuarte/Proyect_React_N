@@ -6,7 +6,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import logo from '../../assets/brilla.png';
-import userDefault from '../../assets/user.png'; // importa tu imagen por defecto
+import userDefault from '../../assets/user.png'; 
 import './DashboardPage.css';
 import Swal from 'sweetalert2';
 
