@@ -1,4 +1,4 @@
-# 📘 Actividad Final – Construcción de una Vista Completa con CRUD en React + Firebase
+# 📘 Construcción de una Vista Completa con CRUD en React + Firebase
 
 ## 🎯 Objetivo
 El objetivo de esta actividad es que cada estudiante pueda desarrollar una **vista completa (page)** en la aplicación, integrando los conceptos aprendidos durante el curso: **autenticación, componentes reutilizables, Firestore, y despliegue en Firebase Hosting**.  
@@ -54,7 +54,6 @@ Cada estudiante deberá:
 - Usar **Bootstrap** para mantener el estilo limpio y organizado.  
 - Reutilizar los componentes ya creados (Navbar y Footer).  
 - Validar que los datos se guarden correctamente en Firestore.  
-- Mantener un diseño **compacto y minimalista**.  
 - Opcional: usar **SweetAlert2** para confirmaciones y alertas amigables.  
 
 ---
